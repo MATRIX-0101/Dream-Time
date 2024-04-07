@@ -1,10 +1,3 @@
-
-
-
-
-
-
-
 import React, { useState } from 'react';
  import { getDatabase, ref, set, push} from "firebase/database";
 import { app , auth} from "../firebase.config";
@@ -13,26 +6,17 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-
-//import {getdatabase,ref,set,child,get} from "firebase/database";   // changes 
- //  const db=getdatabase(); // chnages
-
 function RegisterPage() {
 
-  const [details, setnewUser] = useState(
-    {
-      firstname : "",
-      surname: "",
-      email: "",
-      password: "",
-      confpassword: "",
-    }
-  )
+  const initialDetails = {
+    firstname : "",
+    surname: "",
+    email: "",
+    password: "",
+    confpassword: "",
+  };
+  const [details, setnewUser] = useState( initialDetails)
 
-  // const handleChange = (e) => {
-  //   const { name, value } = e.target;
-  //   setdetails({ ...details, [name]: value });
-  // };
   const handleChange = async(e) => {
     setnewUser({ ...details, [e.target.name]: e.target.value})
   };
@@ -68,30 +52,6 @@ function RegisterPage() {
     e.preventDefault();
     let newErr = "";
 
-    // if (details.name === "") {
-    //   newErr = "Please enter a valid username";
-    //   seterr(newErr);
-    //   return;
-    // }
-
-    // if (
-    //   details.email === "" ||
-    //   !details.email.includes("@") ||
-    //   !["gmail.com", "yahoo.com", "mnnit.ac.in"].includes(
-    //     details.email.split("@")[1]
-    //   )
-    // ) {
-    //   newErr += "\nInvalid email address";
-    //   seterr(newErr);
-    //   return;
-    // }
-
-    // if (details.mobile.length !== 10) {
-    //   newErr += "\nInvalid mobile no.";
-    //   seterr(newErr);
-    //   return;
-    // }
-
     if (details.password !== details.confpassword) {
       newErr += "\nPassword should match with confirm password";
       seterr(newErr);
@@ -111,6 +71,7 @@ function RegisterPage() {
         details.password
       );
       const user = userCredential.user;
+      console.log(userCredential);
       const db = getDatabase(app);
       set(ref(db, `user/${user.uid}`), {
         firstname: details.firstname,
@@ -123,8 +84,11 @@ function RegisterPage() {
       localStorage.setItem("authToken", auth.authToken);
       // navigate('/');
       // window.location.reload();
+      setnewUser(initialDetails);
+      alert("reg successful !!");
 
-      toast.success("Registered successfully!!!");
+
+      // toast.success("Registered successfully!!!");
       // Delay the toast by 5000 milliseconds (5 seconds)
     } catch (error) {
       seterr(error.message);
@@ -137,14 +101,11 @@ function RegisterPage() {
           <div className="w-full lg:w-1/2 flex flex-col items-center justify-center p-12 bg-no-repeat bg-cover bg-center" style={{ backgroundImage: `url(${bgimg})` }}>
             <h1 className="text-white text-5xl mb-3">Dream World</h1>
             <div>
-              <p className="text-white">Explore the beauty of different minds <a href="#" className="text-purple-500 font-semibold">Learn more</a></p>
+              <p className="text-white">Explore the beauty of different minds </p>
             </div>    
           </div>
           <div className="w-full lg:w-1/2 py-16 px-12">
             <h2 className="text-3xl mb-4">Register</h2>
-            <p className="mb-4">
-              Create your account. It’s free and only takes a minute
-            </p>
             <form onSubmit={handleSubmit}>
               <div className="grid grid-cols-2 gap-5">
               <input type="text" placeholder="Firstname" className="border border-gray-400 py-1 px-2"
@@ -194,6 +155,9 @@ function RegisterPage() {
               </div> */}
               <div className="mt-5">
                 <button type="submit" className="w-full bg-purple-500 py-3 text-center text-white">Register Now</button>
+              </div>
+              <div>
+              <a href="/login" className="text-purple-500 font-semibold">Already have account ?</a>
               </div>
             </form>
           </div>
