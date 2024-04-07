@@ -2,6 +2,7 @@ import React from 'react'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import Register from "./pages/Register";
+import Login from "./pages/Login";
 
 function App() {
   return (
@@ -20,6 +21,13 @@ function App() {
                 <Register />
             }
           />
+            <Route
+            path="/login"
+            element={
+                <Login />
+            }
+          />
+
         </Routes>
       </BrowserRouter>
     </>

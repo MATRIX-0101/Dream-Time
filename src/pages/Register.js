@@ -1,54 +1,205 @@
+
+
+
+
+
+
+
 import React, { useState } from 'react';
-import { getDatabase, ref, set } from "firebase/database";
-import { app, auth } from "../firebase.config";
+ import { getDatabase, ref, set, push} from "firebase/database";
+import { app , auth} from "../firebase.config";
+import bgimg from "../assets/mountains.avif"
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+
+//import {getdatabase,ref,set,child,get} from "firebase/database";   // changes 
+ //  const db=getdatabase(); // chnages
 
 function RegisterPage() {
-  const [formData, setFormData] = useState({
-    username: '',
-    email: '',
-    password: ''
-  });
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+  const [details, setnewUser] = useState(
+    {
+      firstname : "",
+      surname: "",
+      email: "",
+      password: "",
+      confpassword: "",
+    }
+  )
+
+  // const handleChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setdetails({ ...details, [name]: value });
+  // };
+  const handleChange = async(e) => {
+    setnewUser({ ...details, [e.target.name]: e.target.value})
+  };
+  const encodeEmail = (email) => {
+    return email.replace(/\./g, ",").replace(/#/g, "%23");
   };
 
-  const handleSubmit = (e) => {
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+    
+
+  //   // const user=userCredential.user;
+  //   const db = getDatabase(app);
+  //   const newDocRef = push(ref(db, `user`));
+  //   set(newDocRef, {
+      // firstname: details.firstname,
+      // surname: details.surname,
+      // email : details.email,
+      // password: details.password,
+      // confpassword: details.confpassword,
+  //   }).then(() => {
+  //     alert("Data stored successfully");
+  //   }).catch((error) => {
+  //     console.error('Error storing data:', error);
+  //   });
+  // };
+
+  const [err, seterr] = useState("");
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const db = getDatabase(app);
-    set(ref(db, 'user'), {
-      name: formData.username,
-      email: formData.email,
-      password: formData.password,
-    }).then(() => {
-      console.log('Data stored successfully');
-    }).catch((error) => {
-      console.error('Error storing data:', error);
-    });
+    const enco = encodeEmail(details.email);
+    e.preventDefault();
+    let newErr = "";
+
+    // if (details.name === "") {
+    //   newErr = "Please enter a valid username";
+    //   seterr(newErr);
+    //   return;
+    // }
+
+    // if (
+    //   details.email === "" ||
+    //   !details.email.includes("@") ||
+    //   !["gmail.com", "yahoo.com", "mnnit.ac.in"].includes(
+    //     details.email.split("@")[1]
+    //   )
+    // ) {
+    //   newErr += "\nInvalid email address";
+    //   seterr(newErr);
+    //   return;
+    // }
+
+    // if (details.mobile.length !== 10) {
+    //   newErr += "\nInvalid mobile no.";
+    //   seterr(newErr);
+    //   return;
+    // }
+
+    if (details.password !== details.confpassword) {
+      newErr += "\nPassword should match with confirm password";
+      seterr(newErr);
+      return;
+    }
+
+    if (newErr !== "") {
+      // alert(details.password+"   "+details.confirmPassword);
+      seterr(newErr);
+      return;
+    }
+
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        details.email,
+        details.password
+      );
+      const user = userCredential.user;
+      const db = getDatabase(app);
+      set(ref(db, `user/${user.uid}`), {
+        firstname: details.firstname,
+      surname: details.surname,
+      email : details.email,
+      password: details.password,
+      confpassword: details.confpassword,
+      });
+      seterr("");
+      localStorage.setItem("authToken", auth.authToken);
+      // navigate('/');
+      // window.location.reload();
+
+      toast.success("Registered successfully!!!");
+      // Delay the toast by 5000 milliseconds (5 seconds)
+    } catch (error) {
+      seterr(error.message);
+    }
   };
-  
-
   return (
-    <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-lg">
-  <h2 className="text-2xl font-bold mb-6">Register</h2>
-  <form onSubmit={handleSubmit}>
-    <div className="mb-4">
-      <label htmlFor="username" className="block text-sm font-semibold mb-2">Username:</label>
-      <input type="text" id="username" name="username" value={formData.username} onChange={handleChange} className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" />
-    </div>
-    <div className="mb-4">
-      <label htmlFor="email" className="block text-sm font-semibold mb-2">Email:</label>
-      <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" />
-    </div>
-    <div className="mb-4">
-      <label htmlFor="password" className="block text-sm font-semibold mb-2">Password:</label>
-      <input type="password" id="password" name="password" value={formData.password} onChange={handleChange} className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" />
-    </div>
-    <button type="submit" className="w-full bg-blue-500 text-white font-semibold px-4 py-2 rounded-md hover:bg-blue-600 transition duration-200">Register</button>
-  </form>
-</div>
+    <div className="min-h-screen py-40" style={{ backgroundImage: "linear-gradient(115deg, #9F7AEA, #FEE2FE)" }}>
+      <div className="container mx-auto">
+        <div className="flex flex-col lg:flex-row w-10/12 lg:w-8/12 bg-white rounded-xl mx-auto shadow-lg overflow-hidden">
+          <div className="w-full lg:w-1/2 flex flex-col items-center justify-center p-12 bg-no-repeat bg-cover bg-center" style={{ backgroundImage: `url(${bgimg})` }}>
+            <h1 className="text-white text-5xl mb-3">Dream World</h1>
+            <div>
+              <p className="text-white">Explore the beauty of different minds <a href="#" className="text-purple-500 font-semibold">Learn more</a></p>
+            </div>    
+          </div>
+          <div className="w-full lg:w-1/2 py-16 px-12">
+            <h2 className="text-3xl mb-4">Register</h2>
+            <p className="mb-4">
+              Create your account. It’s free and only takes a minute
+            </p>
+            <form onSubmit={handleSubmit}>
+              <div className="grid grid-cols-2 gap-5">
+              <input type="text" placeholder="Firstname" className="border border-gray-400 py-1 px-2"
+                  id="firstname"
+                  name="firstname"
+                  value={details.firstname}
+                  onChange={handleChange}
+                  required
+                />
 
+                <input type="text" placeholder="Surname" className="border border-gray-400 py-1 px-2" 
+                id="surname"
+                name="surname"
+                value={details.surname}
+                onChange={handleChange} 
+                 required/>
+              </div>
+              <div className="mt-5">
+                <input type="text" placeholder="Email" className="border border-gray-400 py-1 px-2 w-full" 
+                id="email"
+                name="email"
+                value={details.email}
+                onChange={handleChange} 
+                 required/>
+              </div>
+              <div className="mt-5">
+                <input type="password" placeholder="Password" className="border border-gray-400 py-1 px-2 w-full" 
+                id="password"
+                name="password"
+                value={details.password}
+                onChange={handleChange} 
+                 required/>
+              </div>
+              <div className="mt-5">
+                <input type="password" placeholder="Confirm Password" className="border border-gray-400 py-1 px-2 w-full" 
+                id="confpassword"
+                name="confpassword"
+                value={details.confpassword}
+                onChange={handleChange} 
+                 required/>
+              </div>
+              {/* <div className="mt-5">
+                <input type="checkbox" className="border border-gray-400" />
+                <span>
+                  I accept the <a href="#" className="text-purple-500 font-semibold">Terms of Use</a> & <a href="#" className="text-purple-500 font-semibold">Privacy Policy</a>
+                </span>
+              </div> */}
+              <div className="mt-5">
+                <button type="submit" className="w-full bg-purple-500 py-3 text-center text-white">Register Now</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
 

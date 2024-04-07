@@ -11,8 +11,8 @@ export default function Navbar({ fixed }) {
 
   return (
     <>
-      <div className="font-[Poppins] bg-gradient-to-t from-[#fbc2eb] to-[#a6c1ee] h-screen">
-        <header className="bg-white">
+      <div className="">
+        <header className=" bg-white">
           <nav className="flex justify-between items-center w-[92%] mx-auto">
             <div>
               <img
