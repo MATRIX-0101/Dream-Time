@@ -11,7 +11,7 @@ export default function Navbar({ fixed }) {
 
   return (
     <>
-      <div className="font-[Poppins] bg-gradient-to-t from-[#fbc2eb] to-[#a6c1ee] h-screen">
+      <div className="">
         <header className="bg-white">
           <nav className="flex justify-between items-center w-[92%] mx-auto">
             <div>
@@ -43,7 +43,7 @@ export default function Navbar({ fixed }) {
             </div>
             <div className="flex items-center gap-6">
               <button className="bg-[#a6c1ee] text-white px-5 py-2 rounded-full hover:bg-[#87acec]">Sign in</button>
-              <ionicon onClick={onToggleMenu} name={navbarOpen ? 'close' : 'menu'} className="text-3xl cursor-pointer md:hidden"></ionicon>
+              {/* <ionicon onClick={onToggleMenu} name={navbarOpen ? 'close' : 'menu'} className="text-3xl cursor-pointer md:hidden"></ionicon> */}
             </div>
           </nav>
         </header>
