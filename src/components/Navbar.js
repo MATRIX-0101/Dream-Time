@@ -12,7 +12,9 @@ export default function Navbar({ fixed }) {
   return (
     <>
       <div className="">
+
         <header className="bg-white">
+
           <nav className="flex justify-between items-center w-[92%] mx-auto">
             <div>
               <img
