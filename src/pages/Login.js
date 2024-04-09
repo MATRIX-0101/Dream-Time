@@ -21,6 +21,8 @@ export default function Login() {
       await signInWithEmailAndPassword(auth, email, password);
       localStorage.setItem("authToken", auth.authToken);
       toast.success("Logged in successfully!");
+      localStorage.setItem("token", "loggedin");
+      console.log(localStorage);
       navigate("/"); // Navigate to the home page after successful login
     } catch (error) {
       seterr(error.message);
@@ -29,6 +31,7 @@ export default function Login() {
 
   return (
     <>
+      
       <div className="min-h-screen py-40" style={{ backgroundImage: "linear-gradient(115deg, #9F7AEA, #FEE2FE)" }}>
         <div className="container mx-auto">
           <div className="flex flex-col lg:flex-row w-10/12 lg:w-8/12 bg-white rounded-xl mx-auto shadow-lg overflow-hidden">

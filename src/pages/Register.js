@@ -1,6 +1,3 @@
-
-
-
 import React, { useState } from 'react';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../firebase.config';
@@ -34,21 +31,23 @@ function RegisterPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const enco = encodeEmail(details.email);
     e.preventDefault();
     let newErr = '';
 
     if (details.password !== details.confpassword) {
       newErr += '\nPassword should match with confirm password';
       seterr(newErr);
+      alert(err);
+      setnewUser(initialDetails);
       return;
     }
 
     if (newErr !== '') {
       seterr(newErr);
+      alert(err);
+      setnewUser(initialDetails);
       return;
     }
-
     try {
       const userCredential = await createUserWithEmailAndPassword(
         auth,
@@ -62,15 +61,16 @@ function RegisterPage() {
         surname: details.surname,
         email: details.email,
         password: details.password,
-        confpassword: details.confpassword,
+        // confpassword: details.confpassword,
       });
       seterr('');
-      localStorage.setItem('authToken', auth.authToken);
+      // localStorage.setItem('authToken', auth.authToken);
       setnewUser(initialDetails);
       alert('Registration successful!');
-      navigate('/login'); // Navigate to the login page after successful registration
+      navigate('/'); // Navigate to the home page after successful registeration
     } catch (error) {
-      seterr(error.message);
+      alert('unsuccessful');
+      // seterr(error.message);
     }
   };
 
