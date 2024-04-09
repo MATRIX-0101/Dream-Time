@@ -8,10 +8,10 @@ import Footer from '../components/Footer'
 export default function HomePage() {
   return (
     <div>
-      <Navbar />
+      {/* <Navbar /> */}
       <Hero />
       <AboutUs />
-      <Footer />
+      {/* <Footer /> */}
     </div>
   )
 } 

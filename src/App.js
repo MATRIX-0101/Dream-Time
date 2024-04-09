@@ -5,6 +5,9 @@ import Register from "./pages/Register";
 import Login from "./pages/Login";
 
 import Catform from './pages/Catform'; // Adjust the import path as needed
+import Layout from './components/Layout';
+import MyDreams from './pages/MyDreams';
+import { ToastContainer } from "react-toastify";
   function App() {
     return (
     <>
@@ -17,26 +20,54 @@ import Catform from './pages/Catform'; // Adjust the import path as needed
             
             path="/"
             element={
+              <Layout>
                 <HomePage />
+              </Layout>
+                
             }
           />
           <Route
             
             path="/register"
             element={
+              <Layout>
                 <Register />
+              </Layout>
+                
             }
           />
             <Route
             
             path="/login"
             element={
+              <Layout>
                 <Login />
+              </Layout>
             }
           />
-          
+
+          <Route
+            
+            path="/mydreams"
+            element={
+              <Layout>
+                <MyDreams />
+              </Layout>
+                
+            }
+          />
+          <Route
+            
+            path="/catform"
+            element={
+              <Layout>
+                <Catform />
+              </Layout>
+            }
+          />
 
         </Routes>
+        <ToastContainer />
       </BrowserRouter>
     </>
   );
