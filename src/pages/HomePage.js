@@ -1,4 +1,5 @@
 import React from 'react'
+import { useNavigate } from "react-router-dom"; // change
 import Navbar from '../components/Navbar'
 import Hero from '../components/Hero'
 import AboutUs from '../components/AboutUs'
