@@ -266,6 +266,17 @@ export default function Navbar({ fixed }) {
                   </button><></> <Logout /> </>)}
           {/* </div> */}
             </div>
+
+
+
+ 
+
+            
+
+
+
+
+
           </nav>
         </header>
       </div>
