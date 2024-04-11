@@ -8,6 +8,7 @@ import Catform from './pages/Catform'; // Adjust the import path as needed
 import Layout from './components/Layout';
 import MyDreams from './pages/MyDreams';
 import { ToastContainer } from "react-toastify";
+import AllDreams from './components/AllDreams';
   function App() {
     return (
     <>
@@ -62,6 +63,23 @@ import { ToastContainer } from "react-toastify";
             element={
               <Layout>
                 <Catform />
+              </Layout>
+            }
+          />
+          <Route 
+            path="/alldreams"
+            element={
+              <Layout>
+                <AllDreams />
+              </Layout>
+            }
+          />
+
+          <Route 
+            path="/notifications"
+            element={
+              <Layout>
+                <AllDreams />
               </Layout>
             }
           />
