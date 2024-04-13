@@ -5,7 +5,7 @@ import bgimg from '../assets/mountains.avif';
 import { getDatabase, ref, set, push } from 'firebase/database';
 import { Link, useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+// import 'react-toastify/dist/ReactToastify.css';
 import { app } from '../firebase.config';
 
 
@@ -61,6 +61,8 @@ function RegisterPage() {
         surname: details.surname,
         email: details.email,
         password: details.password,
+        image: "",
+        followers: [],
         // confpassword: details.confpassword,
       });
       seterr('');

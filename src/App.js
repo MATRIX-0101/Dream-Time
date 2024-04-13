@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
-
+import datetime from "./components/datetime" ; // chnages
 import Catform from './pages/Catform'; // Adjust the import path as needed
 import Layout from './components/Layout';
 import MyDreams from './pages/MyDreams';
@@ -74,7 +74,14 @@ import AllDreams from './components/AllDreams';
               </Layout>
             }
           />
-
+          <Route 
+            path="/datetime"
+            element={
+              <Layout>
+                <datetime />
+              </Layout>
+            }
+          />
           <Route 
             path="/notifications"
             element={

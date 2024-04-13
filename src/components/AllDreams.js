@@ -9,7 +9,7 @@ export default function AllDreams() {
           <div className="px-2 pt-2 flex-grow">
             <header>
               <a href="#" className="text-black no-underline">
-                <span className="font-medium">Rathes Sachchithananthan</span>
+                <span className="font-medium">Account holder name + image</span>
                 {/* <span className="font-normal text-grey">@rathes</span> */}
               </a>
               <div className="text-xs text-grey flex items-center my-1">
@@ -30,11 +30,11 @@ export default function AllDreams() {
                   <line x1="8" y1="2" x2="8" y2="6" />
                   <line x1="3" y1="10" x2="21" y2="10" />
                 </svg>
-                <span>2 hours ago</span>
+                <span>post time</span>
               </div>
             </header>
             <article className="py-4 text-grey-darkest">
-              Lorem ipsum sit dolor et amet et cetera og quandum morales.
+              Title of dream ! + dropdown for content !!! : )
             </article>
             <footer className="border-t border-grey-lighter text-sm flex">
               <a
@@ -93,3 +93,64 @@ www.w3.org/2000/svg"
     </div>
   )
 }
+
+
+// import React, { useState, useEffect } from 'react';
+// import { app } from '../firebase.config';
+// import { getDatabase, ref, set, onValue } from 'firebase/database';
+
+// export default function AllDreams() {
+//   const [postTime, setPostTime] = useState('');
+
+//   // Function to get the post time from Firebase
+//   const getPostTime = () => {
+//     const db = getDatabase(app);
+//     const postTimeRef = ref(db, 'postTimes'); // Assuming 'postTimes' is the node where post times are stored
+//     onValue(postTimeRef, (snapshot) => {
+//       const time = snapshot.val();
+//       setPostTime(time);
+//     });
+//   };
+
+//   useEffect(() => {
+//     getPostTime();
+//   }, []); // Run once on component mount
+
+//   return (
+//     <div className="font-sans">
+//       <div className="bg-white max-w-md mx-auto my-8 border border-grey-light overflow-hidden">
+//         <div className="flex pt-4 px-4">
+//           <div className="px-2 pt-2 flex-grow">
+//             <header>
+//               <a href="#" className="text-black no-underline">
+//                 <span className="font-medium">Account holder name + image</span>
+//               </a>
+//               <div className="text-xs text-grey flex items-center my-1">
+//                 <svg
+//                   xmlns="http://www.w3.org/2000/svg"
+//                   width="24"
+//                   height="24"
+//                   viewBox="0 0 24 24"
+//                   fill="none"
+//                   stroke="currentColor"
+//                   strokeWidth="2"
+//                   strokeLinecap="round"
+//                   strokeLinejoin="round"
+//                   className="h-4 w-4 mr-1 feather feather-calendar"
+//                 >
+//                   <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+//                   <line x1="16" y1="2" x2="16" y2="6" />
+//                   <line x1="8" y1="2" x2="8" y2="6" />
+//                   <line x1="3" y1="10" x2="21" y2="10" />
+//                 </svg>
+//                 <span>{postTime}</span> {/* Display post time */}
+//               </div>
+//             </header>
+//             {/* Rest of your component */}
+//             {/* Title of dream ! + dropdown for content !!! : ) */}
+//           </div>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// }
