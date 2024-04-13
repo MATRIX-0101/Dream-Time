@@ -93,16 +93,32 @@ console.log(selectedCategory)
 
 
 
- set(ref(db, `Dreams/${userId}`),{
-    DreamTitle: title,
-    SelectaCategory:selectedCategory,
-    TypeYourDreams: type,
-    // Datetime: getDate,
+//  set(ref(db, `Dreams/${userId}/1`),{
+    // DreamTitle: title,
+    // SelectaCategory:selectedCategory,
+    // TypeYourDreams: type,
+    // // Datetime: getDate,
     
     
 
     
-  });
+//   });
+const res = await fetch(
+        `https://dream-time-30692-default-rtdb.firebaseio.com//Dreams.json`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            user: userId,
+            title: title,
+            category:selectedCategory,
+            content: type,
+            // Datetime: getDate,
+          }),
+        }
+      );
 
 
   seterr('');

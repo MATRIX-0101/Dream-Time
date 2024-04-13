@@ -15,8 +15,9 @@ export default function MyDreams() {
   const [profilePic, setProfilePic] = useState('');
   const [editingProfilePic, setEditingProfilePic] = useState(false);
   const [newProfilePic, setNewProfilePic] = useState('');
-  const [data, setData] = useState([]);
+  const [dreamdata, setDreamData] = useState(null);
   const [loggedin, setLoggedin] = useState(""); // Initialize loggedin state to false
+  const [userId, setUserId] = useState(null);
 
   const handleEditProfilePic = () => {
     setEditingProfilePic(true);
@@ -91,36 +92,78 @@ export default function MyDreams() {
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      const userId = auth.currentUser.uid;
+    // const fetchData = async () => {
+    //   const userId = auth.currentUser.uid;
+    //   //  alert(userId);
+    //   const db = getDatabase(app);
+    //   const dbRef = ref(db, `user/${userId}`);
+    //   try {
+    //     const snapshot = await get(dbRef);
+    //     const val = snapshot.val();
+    //     if (val && val.image) {
+    //       setProfilePic(val.image);
+    //     } else {
+    //       setProfilePic(
+    //         "https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png"
+    //       );
+    //     }
+    //   } catch (error) {
+    //     // alert(error.message);
+    //   } finally {
+    //     // setloading(false);
+    //   }
+    // };
+
+
+    const fetchDreamData = async () => {
+      const tempId = auth.currentUser.uid;
       //  alert(userId);
+      setUserId(tempId);
       const db = getDatabase(app);
-      const dbRef = ref(db, `user/${userId}`);
+      const dbRef = ref(db, `Dreams/`);
       try {
         const snapshot = await get(dbRef);
         const val = snapshot.val();
-        if (val && val.image) {
-          setProfilePic(val.image);
+        if (val) {
+          // setProfilePic(val.image);
+          // setDreamData(val);
+          // console.log(val);
+          // for(let key in val){
+          //   setDreamData({...,val[key]});
+          // }
+          // Object.entries(val).map(([key, value]) => {
+          //   setDreamData(prevData => ({
+          //     ...prevData,
+          //     [key]: value
+          //   }));
+          // });
+          // console.log(dreamdata);
+          setDreamData(Object.values(val));
+          console.log(dreamdata);
         } else {
-          setProfilePic(
-            "https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png"
-          );
+          // setProfilePic(
+          //   "https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png"
+          // );
+          alert('dreams fetching uncessful');
         }
       } catch (error) {
-        // alert(error.message);
+        alert(error.message);
       } finally {
         // setloading(false);
       }
     };
+
+
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
         // console.log(auth);
         setLoggedin(true);
         // console.log(user.displayName);
         // console.log(user.displayName);
-        console.log(user.email);
+        // console.log(user.email);
         // setData(user.email); // User is authenticated
-        fetchData();
+        // fetchData();
+        fetchDreamData();
       } else {
         // setData([]);
         // setLoggedin(false); // User is not authenticated
@@ -171,7 +214,75 @@ export default function MyDreams() {
           </>
         )}
       </div>
-      <div className="bg-white max-w-md mx-auto my-8 border border-grey-light overflow-hidden">
+
+
+      {/* {
+        for(let key in val){
+            console.log(val[key])
+          }
+
+      } */}
+
+      {/* {
+        dreamdata.map((dream) => {
+          <div className="bg-white max-w-md mx-auto my-8 border border-grey-light overflow-hidden">
+        <div className="flex pt-4 px-4">
+          <div className="px-2 pt-2 flex-grow">
+            <header>
+              <span className="font-medium text-black no-underline">{}</span>
+              <div className="text-xs text-grey flex items-center my-1">
+              </div>
+            </header>
+            <article className="py-4 text-grey-darkest">
+              Dream content fetched from database.
+            </article>
+          </div>
+        </div>
+      </div>
+        })
+      } */}
+      {/* {dreamdata && dreamdata.map((dream, index) => (
+        if(dream.user != userId){
+          continue;
+        }
+      <div key={index} className="bg-white max-w-md mx-auto my-8 border border-grey-light overflow-hidden">
+        <div className="flex pt-4 px-4">
+          <div className="px-2 pt-2 flex-grow">
+            <header>
+              <span className="font-medium text-black no-underline">{dream.title}</span>
+              <div className="text-xs text-grey flex items-center my-1">
+              </div>
+            </header>
+            <article className="py-4 text-grey-darkest">
+              {dream.content}
+            </article>
+          </div>
+        </div>
+      </div>
+    ))} */}
+    {dreamdata && dreamdata.map((dream, index) => (
+  dream.user !== userId ? null : // If user doesn't match, don't render anything
+  (
+    <div key={index} className="bg-white max-w-md mx-auto my-8 border border-grey-light overflow-hidden">
+      <div className="flex pt-4 px-4">
+        <div className="px-2 pt-2 flex-grow">
+          <header>
+            <span className="font-medium text-black no-underline">{dream.title}</span>
+            <div className="text-xs text-grey flex items-center my-1">
+            </div>
+          </header>
+          <article className="py-4 text-grey-darkest">
+            {dream.content}
+          </article>
+        </div>
+      </div>
+    </div>
+  )
+))}
+
+
+
+      {/* <div className="bg-white max-w-md mx-auto my-8 border border-grey-light overflow-hidden">
         <div className="flex pt-4 px-4">
           <div className="px-2 pt-2 flex-grow">
             <header>
@@ -184,7 +295,7 @@ export default function MyDreams() {
             </article>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }
