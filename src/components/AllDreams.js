@@ -15,7 +15,11 @@ import {
 
 export default function AllDreams() {
   const [dreamdata, setDreamData] = useState(null);
+  //const [userData, setUserData] = useState({ firstname: "", image: "" });
   const [userId, setUserId] = useState(null);
+  const [userData, setUserData] = useState(null);
+
+  const [dropdownIndex, setDropdownIndex] = useState(null);
   useEffect(() => {
     // const fetchData = async () => {
     //   const userId = auth.currentUser.uid;
@@ -39,7 +43,41 @@ export default function AllDreams() {
     //   }
     // };
   
-  
+    // const fetchUserData = async (userId) => {
+    //   const db = getDatabase(app);
+    //   const userRef = ref(db, `users/${userId}`); // Assuming 'users' is the node where user data is stored
+    //   try {
+    //     const snapshot = await get(userRef);
+    //     const userData = snapshot.val();
+    //     if (userData) {
+    //       setUserData(userData);
+    //     } else {
+    //       setUserData({ firstname: "Unknown", image: "" }); // Set default values if user data not found
+    //     }
+    //   } catch (error) {
+    //     console.error("Error fetching user data:", error);
+    //   }
+    // };
+    const fetchUserData = async (userId) => {
+      const db = getDatabase(app);
+
+      const userRef = ref(db, `user/`); // Adjust the path as per your database structure
+      try {
+        const snapshot = await get(userRef);
+        const tempdata = snapshot.val();
+        if (tempdata) {
+          setUserData(tempdata);
+         // console.log(tempdata);
+          console.log(userData);
+        } else {
+          setUserData(alert); // Set default values if user data not found
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+
+
     const fetchDreamData = async () => {
       const tempId = auth.currentUser.uid;
       //  alert(userId);
@@ -63,13 +101,19 @@ export default function AllDreams() {
           //   }));
           // });
           // console.log(dreamdata);
+
+          
+  
+        
+
+
           setDreamData(Object.values(val));
           console.log(dreamdata);
         } else {
           // setProfilePic(
           //   "https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png"
           // );
-          alert('dreams fetching uncessful');
+          alert('dreams fetching unsuccessful');
         }
       } catch (error) {
         alert(error.message);
@@ -88,11 +132,14 @@ export default function AllDreams() {
         // console.log(user.email);
         // setData(user.email); // User is authenticated
         // fetchData();
+
+      //  fetchUserData(user.uid); // Fetch user data
+        fetchUserData(user.uid); // Fetch user data
         fetchDreamData();
       } else {
         // setData([]);
         // setLoggedin(false); // User is not authenticated
-        alert("login again");
+        alert("please login again");
       }
     });
     return unsubscribe; // Cleanup function
@@ -199,18 +246,28 @@ export default function AllDreams() {
 //   )
 // }
 
+
+const toggleDropdown = (index) => {
+  setDropdownIndex(dropdownIndex === index ? null : index);
+};
+
+
+
+
+
 return (
   <div>
     {dreamdata &&
       dreamdata.map((dream, index) => (
-        dream.user === userId ? null :
+       // dream.user === userId ? null :
         <div key={index} className="font-sans">
           <div className="bg-white max-w-md mx-auto my-8 border border-grey-light overflow-hidden">
             <div className="flex pt-4 px-4">
               <div className="px-2 pt-2 flex-grow">
                 <header>
                   <a href="#" className="text-black no-underline">
-                    <span className="font-medium">Account holder name + image</span>
+                    <span className="font-medium">User Name:{userData[dream.user].firstname}</span>
+                    {userData[dream.user].image && <img src={userData[dream.user].image} alt="Profile" />}
                   </a>
                   <div className="text-xs text-grey flex items-center my-1">
                     <svg
@@ -229,13 +286,33 @@ return (
                       <line x1="16" y1="2" x2="16" y2="6" />
                       <line x1="8" y1="2" x2="8" y2="6" />
                       <line x1="3" y1="10" x2="21" y2="10" />
-                    </svg>
-                    <span>post time</span>
+                    </svg> 
+                    <span>post time:{dream.posttime}
+                    {/* <article className="py-4 text-grey-darkest">
+                  {dream.posttime}
+                </article> */}
+                    </span>
                   </div>
                 </header>
-                <article className="py-4 text-grey-darkest">
-                  {dream.title}
-                </article>
+
+                {/* <article className="py-4 text-grey-darkest">
+                 Title: {dream.title}
+                </article> */}
+
+       <div className="py-4 text-grey-darkest">
+                    <div className="relative">
+                      <span className="font-bold cursor-pointer" onClick={() => toggleDropdown(index)}>
+                        {dream.title} &#9660;
+                      </span>
+                      {dropdownIndex === index && (
+                        <div className="absolute bg-gray-100 border border-gray-300 w-full mt-1 py-2 px-4">
+                          {dream.content}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+
                 <footer className="border-t border-grey-lighter text-sm flex">
                   <a
                     href="#"
