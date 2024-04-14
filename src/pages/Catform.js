@@ -58,6 +58,11 @@ const Catform = () => {
         e.preventDefault();
         e.preventDefault();
        
+
+        const currentDate = new Date().toLocaleDateString();
+        const currentTime = new Date().toLocaleTimeString();
+
+
         
         let newErr = '';
         if (newErr !== '') {
@@ -115,6 +120,7 @@ const res = await fetch(
             title: title,
             category:selectedCategory,
             content: type,
+            posttime: `${currentDate} ${currentTime}`,
             // Datetime: getDate,
           }),
         }
