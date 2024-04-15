@@ -9,6 +9,7 @@ import Layout from './components/Layout';
 import MyDreams from './pages/MyDreams';
 import { ToastContainer } from "react-toastify";
 import AllDreams from './components/AllDreams';
+import Notification from './components/Notification';
   function App() {
     return (
     <>
@@ -74,19 +75,19 @@ import AllDreams from './components/AllDreams';
               </Layout>
             }
           />
-          <Route 
+          {/* <Route 
             path="/datetime"
             element={
               <Layout>
                 <datetime />
               </Layout>
             }
-          />
+          /> */}
           <Route 
             path="/notifications"
             element={
               <Layout>
-                <AllDreams />
+                <Notification />
               </Layout>
             }
           />

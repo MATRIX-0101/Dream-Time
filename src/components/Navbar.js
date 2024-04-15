@@ -209,10 +209,10 @@ export default function Navbar({ fixed }) {
               <li className="relative">
                   <a className="hover:text-gray-500" href="/">Home</a>
                 </li>
-                <li className="relative">
+                {/* <li className="relative">
                   <button className="hover:text-gray-500 flex items-center focus:outline-none" onClick={toggleDropdown}>
                     <span>Genre</span>
-                    <FaAngleDown className="ml-1" /> {/* Downward arrow icon */}
+                    <FaAngleDown className="ml-1" /> 
                   </button>
                   {loggedin && showDropdown && (
                     <ul className="absolute left-0 top-full bg-white shadow-md py-2 mt-1">
@@ -225,10 +225,10 @@ export default function Navbar({ fixed }) {
                       <li>
                         <a className="hover:text-gray-500 block px-4 py-2" href="javascript:void(0)">Comedy</a>
                       </li>
-                      {/* Add more genres as needed */}
+                
                     </ul>
                   )}
-                </li>
+                </li> */}
                 {loggedin && (
                   <li className="relative">
                   <a className="hover:text-gray-500" href="/alldreams">All Dreams</a>
