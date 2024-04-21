@@ -292,17 +292,20 @@ import {
   getDatabase,
   ref,
   get,
+  set
 } from "firebase/database";
 import SortingElements from "./SortingElements";
 
 export default function AllDreams() {
-  const [dreamdata, setDreamData] = useState(null);
+  const [dreamdata, setDreamData] = useState([]);
   const [userId, setUserId] = useState(null);
   const [userData, setUserData] = useState(null);
   const [dropdownIndex, setDropdownIndex] = useState(null);
+  const [dropdownType, setDropdownType] = useState(null);
   const [showImageModal, setShowImageModal] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
   const [category,setCategory] = useState('');
+  const [comments,setComments] = useState([]);
 
   useEffect(() => {
     const fetchUserData = async (userId) => {
@@ -314,7 +317,7 @@ export default function AllDreams() {
         if (tempdata) {
           setUserData(tempdata);
         } else {
-          setUserData(alert); // Set default values if user data not found
+          setUserData(null); // Set default value to null if user data not found
         }
       } catch (error) {
         console.error("Error fetching user data:", error);
@@ -330,12 +333,17 @@ export default function AllDreams() {
         const snapshot = await get(dbRef);
         const val = snapshot.val();
         if (val) {
-          setDreamData(Object.values(val));
+          // Convert the object into an array of objects with IDs
+          const dreamArray = Object.entries(val).map(([id, dream]) => ({ id, ...dream }));
+          setDreamData(dreamArray);
+          
         } else {
-          alert('dreams fetching unsuccessful');
+          setDreamData([]); // Set an empty array if no dreams found
+          alert('No dreams found.');
         }
       } catch (error) {
-        alert(error.message);
+        console.error("Error fetching dreams:", error);
+        alert("An error occurred while fetching dreams.");
       }
     };
   
@@ -344,14 +352,62 @@ export default function AllDreams() {
         fetchUserData(user.uid);
         fetchDreamData();
       } else {
-        alert("please login again");
+        alert("Please log in again");
       }
     });
     return unsubscribe; // Cleanup function
   }, []);
 
-  const toggleDropdown = (index) => {
-    setDropdownIndex(dropdownIndex === index ? null : index);
+  
+  const handleLike = async (dreamId) => {
+    // Check if the user is authenticated
+    const user = auth.currentUser;
+    if (!user) {
+      // If user is not logged in, display a message or redirect to login page
+      alert("Please log in to like this dream.");
+      return;
+    }
+  
+    // Check if the dream exists in the database
+    const db = getDatabase(app)
+    const dreamRef = ref(db, `Dreams/${dreamId}`);
+    get(dreamRef).then((snapshot) => {
+      if (!snapshot.exists()) {
+        // If the dream does not exist, display a message or handle accordingly
+        alert("Dream not found.");
+        return;
+      }
+  
+      // Retrieve the current likes array from the dream data
+      const likes = snapshot.val().likes || [];
+  
+      // Check if the dream is already liked by the user
+      if (likes.includes(user.uid)) {
+        // If the dream is already liked by the user, display a message or handle accordingly
+        alert("You have already liked this dream.");
+        return;
+      }
+  
+      // If the dream is not yet liked by the user, update the likes array in dream data
+      likes.push(user.uid);
+      set(dreamRef, { ...snapshot.val(), likes }).then(() => {
+        // Display a success message or update the UI to indicate that the dream is liked
+        toast.success("Dream liked successfully!");
+      }).catch((error) => {
+        console.error("Error updating dream:", error);
+        // Display an error message or handle the error accordingly
+        toast.error("An error occurred while liking the dream.");
+      });
+    }).catch((error) => {
+      console.error("Error fetching dream:", error);
+      // Display an error message or handle the error accordingly
+      toast.error("An error occurred while fetching the dream.");
+    });
+  };
+  
+  const toggleDropdown = (index, type) => {
+    setDropdownIndex((prevIndex) => (prevIndex === index ? null : index));
+    setDropdownType(type); // Update the dropdown type
   };
 
   const handleImageClick = (imageUrl) => {
@@ -391,23 +447,23 @@ export default function AllDreams() {
                       <span className="font-medium">{userData && userData[dream.user] ? userData[dream.user].firstname : 'Unknown User'}</span>
                       <span className="text-xs text-gray-500 block">{dream.posttime}</span>
                     </div>
-                    <div className="font-bold cursor-pointer" onClick={() => toggleDropdown(index)}>
+                    <div className="font-bold cursor-pointer" onClick={() => toggleDropdown(index, 'title')}>
                       {dream.title} &#9660;
                     </div>
                   </header>
-                  {dropdownIndex === index && (
+                  {dropdownIndex === index && dropdownType === 'title' && (
                     <div className="bg-gray-100 border border-gray-300 w-full mt-1 py-2 px-4">
                       {dream.content}
                     </div>
                   )}
                   <footer className="border-t border-grey-lighter text-sm flex mt-2">
-                    <a href="#" className="block no-underline text-blue flex px-4 py-2 items-center hover:bg-grey-lighter">
+                    <button onClick={() => handleLike(dream.id)} className="block no-underline text-blue flex px-4 py-2 items-center hover:bg-grey-lighter" style={{ color: userData && userData.likedDreams && userData.likedDreams[dream.id] ? 'yellow' : 'black' }}>
                       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-thumbs-up h-6 w-6 mr-1 stroke-current">
                         <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path>
                       </svg>
                       <span>Liked</span>
-                    </a>
-                    <a href="#" className="block no-underline text-black flex px-4 py-2 items-center hover:bg-grey-lighter">
+                    </button>
+                    <button onClick={() => toggleDropdown(index, 'comment')} className="block no-underline text-black flex px-4 py-2 items-center hover:bg-grey-lighter">
                       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-message-circle h-6 w-6 mr-1 stroke-current">
                         <path d="M21 12a9 9 0 0 0-9-9"></path>
                         <path d="M3 12a9 9 0 0 0 9 9"></path>
@@ -418,8 +474,13 @@ export default function AllDreams() {
                         <circle cx="4.5" cy="19.5" r="1.5"></circle>
                       </svg>
                       <span>Comment</span>
-                    </a>
+                    </button>
                   </footer>
+                  {dropdownIndex === index && dropdownType === 'comment' && (
+                    <div className="bg-gray-100 border border-gray-300 w-full mt-1 py-2 px-4">
+                      {dream.content}
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
