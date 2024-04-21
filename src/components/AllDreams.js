@@ -302,6 +302,7 @@ export default function AllDreams() {
   const [dropdownIndex, setDropdownIndex] = useState(null);
   const [showImageModal, setShowImageModal] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
+  const [category,setCategory] = useState('');
 
   useEffect(() => {
     const fetchUserData = async (userId) => {
@@ -358,11 +359,19 @@ export default function AllDreams() {
     setShowImageModal(true);
   };
 
+  const handleChildvalue = (value) =>{
+    setCategory(value);
+  }
+
+  // Filter dreams based on category if category is not empty
+  const filteredDreams = category !== '' ? dreamdata.filter(dream => dream.category === category) : dreamdata;
+
+
   return (
     <div>
-      <SortingElements />
-      {dreamdata &&
-        dreamdata.map((dream, index) => (
+      <SortingElements onChildvalue={handleChildvalue}/>
+      {filteredDreams &&
+        filteredDreams.map((dream, index) => (
           <div key={index} className="font-sans">
             <div className="bg-white max-w-md mx-auto my-8 border border-grey-light overflow-hidden relative">
               {userData && userData[dream.user] && (
