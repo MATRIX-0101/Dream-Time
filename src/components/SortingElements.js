@@ -1,48 +1,64 @@
-import React from 'react'
+import React, { useState } from 'react'
 
-export default function SortingElements() {
+export default function SortingElements({onChildvalue}) {
+  const [category,setCategory] = useState('')
+  const handleCategory = (newgenre) => {
+    setCategory(newgenre);
+    onChildvalue(newgenre);
+  }
   return (
     <div className='flex flex-row flex-wrap'>
       <button
         className="bg-[#a6c1ee] text-white px-5 py-2 rounded-full hover:bg-[#87acec]"
         type="button"
-        onClick=''>
+        onClick={()=>handleCategory('Happy')}>
         Happy
       </button>
 
       <button
         className="bg-[#a6c1ee] text-white px-5 py-2 rounded-full hover:bg-[#87acec]"
         type="button"
-        onClick=''>
+        onClick={()=>handleCategory('Horror')}>
+        
         Horror
       </button>
 
       <button
         className="bg-[#a6c1ee] text-white px-5 py-2 rounded-full hover:bg-[#87acec]"
         type="button"
-        onClick=''>
-        Mystery
+        onClick={()=>handleCategory('Mystery')}>
+        
+          Mystery
       </button>
 
       <button
         className="bg-[#a6c1ee] text-white px-5 py-2 rounded-full hover:bg-[#87acec]"
         type="button"
-        onClick=''>
+        onClick={()=> handleCategory('Weird')}>
         Weird
       </button>
 
       <button
         className="bg-[#a6c1ee] text-white px-5 py-2 rounded-full hover:bg-[#87acec]"
         type="button"
-        onClick=''>
+        onClick={()=>handleCategory('Fantasy')}>
+        
         Fantasy
       </button>
 
       <button
         className="bg-[#a6c1ee] text-white px-5 py-2 rounded-full hover:bg-[#87acec]"
         type="button"
-        onClick=''>
+        onClick={()=>handleCategory('Fear')}>
+        
         Fear
+      </button>
+      <button
+        className="bg-[#a6c1ee] text-white px-5 py-2 rounded-full hover:bg-[#87acec]"
+        type="button"
+        onClick={()=>handleCategory('')}>
+        
+        All
       </button>
     </div>
   )
