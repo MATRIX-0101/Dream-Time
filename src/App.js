@@ -7,12 +7,11 @@ import AddReg from "./pages/AddReg";
 
 
 import Login from "./pages/Login";
-import datetime from "./components/datetime" ; // chnages
 import Catform from './pages/Catform'; // Adjust the import path as needed
 import Layout from './components/Layout';
 import MyDreams from './pages/MyDreams';
 import { ToastContainer } from "react-toastify";
-import AllDreams from './components/AllDreams';
+import AllDreams from './pages/AllDreams';
 import Notification from './components/Notification';
   function App() {
     return (
