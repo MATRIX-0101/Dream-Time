@@ -140,7 +140,7 @@
 
 import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
-import logo from "../assets/logo.jpg";
+import dreamerlogo from "../assets/dreamerlogo.png";
 import { FaAngleDown } from "react-icons/fa"; // Import FontAwesome icon for downward arrow
 import Logout from "./Logout";
 import Signin from "./Signin";
@@ -202,7 +202,7 @@ export default function Navbar({ fixed }) {
         <header className="bg-white">
           <nav className="flex justify-between items-center w-[92%] mx-auto">
             <div>
-              <img className="w-16 cursor-pointer" src={logo} alt="..." />
+              <img className="w-16 cursor-pointer" src={dreamerlogo} alt="..." />
             </div>
             <div>
               <ul className="flex md:flex-row flex-col md:items-center md:gap-[4vw] gap-8">
