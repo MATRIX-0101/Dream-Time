@@ -2,6 +2,10 @@ import React from 'react'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import Register from "./pages/Register";
+import AddReg from "./pages/AddReg";
+
+
+
 import Login from "./pages/Login";
 import datetime from "./components/datetime" ; // chnages
 import Catform from './pages/Catform'; // Adjust the import path as needed
@@ -28,6 +32,18 @@ import Notification from './components/Notification';
                 
             }
           />
+
+          <Route
+            
+            path="/addreg"
+            element={
+              <Layout>
+                <AddReg />
+              </Layout>
+                
+            }
+          />
+
           <Route
             
             path="/register"
@@ -38,6 +54,7 @@ import Notification from './components/Notification';
                 
             }
           />
+         
             <Route
             
             path="/login"
@@ -75,14 +92,14 @@ import Notification from './components/Notification';
               </Layout>
             }
           />
-          {/* <Route 
-            path="/datetime"
+          <Route 
+            path="/middlesection"
             element={
               <Layout>
-                <datetime />
+                <middlesection />
               </Layout>
             }
-          /> */}
+          />
           <Route 
             path="/notifications"
             element={
