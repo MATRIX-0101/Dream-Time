@@ -289,7 +289,7 @@ import React, { useState } from 'react';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../firebase.config';
 import bgimg from '../assets/mountains.avif';
-import { collection, addDoc, getFirestore } from 'firebase/firestore';
+import { collection, addDoc, getFirestore, doc, setDoc} from 'firebase/firestore';
 import { Link, useNavigate } from 'react-router-dom';
 import { app } from '../firebase.config';
 
@@ -319,14 +319,24 @@ function RegisterPage() {
     }
 
     try {
+
+      const db = getFirestore(app);
       const userCredential = await createUserWithEmailAndPassword(
         auth,
         details.email,
         details.password
       );
 
-      const db = getFirestore(app);
-      const userRef = collection(db, 'user'); 
+      // Get user data
+      const user = userCredential.user;
+      
+      // const userRef = collection(db, 'user'); 
+
+      // Set custom ID for the user document
+      const userId = user.uid;
+
+      console.log(userId);
+
       const newUser = {
         firstname: details.firstname,
         surname: details.surname,
@@ -335,7 +345,11 @@ function RegisterPage() {
         image: '',
         followers: [],
       };
-      const docRef = await addDoc(userRef, newUser);
+      // const docRef = await addDoc(userRef, newUser);
+      // await addDoc(userRef, newUser, userId);
+      const userRef = doc(db, 'user', userId); // Specify the document reference with the custom ID
+      await setDoc(userRef, newUser); // Add the data to the user document
+
 
       setErr('');
       setnewUser(initialDetails);

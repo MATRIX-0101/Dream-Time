@@ -273,6 +273,8 @@ const Catform = () => {
                 throw new Error('User not authenticated.');
             }
 
+            alert(userId);
+
             const db = getFirestore();
             const dreamRef = collection(db, `Dreams`); // Changed collection path
 

@@ -4,8 +4,6 @@ import HomePage from "./pages/HomePage";
 import Register from "./pages/Register";
 import AddReg from "./pages/AddReg";
 
-
-
 import Login from "./pages/Login";
 import Catform from './pages/Catform'; // Adjust the import path as needed
 import Layout from './components/Layout';
