@@ -228,7 +228,7 @@ const fetchData = async () => {
             <div>
               <ul className="flex md:flex-row flex-col md:items-center md:gap-[4vw] gap-8">
               <li className="relative">
-                  <a className="hover:text-gray-500" href="/">Home</a>
+                  <a className="hover:text-gray-500 hover: font-bold" href="/">Home</a>
                 </li>
                 {/* <li className="relative">
                   <button className="hover:text-gray-500 flex items-center focus:outline-none" onClick={toggleDropdown}>
@@ -252,15 +252,15 @@ const fetchData = async () => {
                 </li> */}
                 {loggedin && (
                   <li className="relative">
-                  <a className="hover:text-gray-500" href="/alldreams">All Dreams</a>
+                  <a className="hover:text-gray-500 hover: font-bold" href="/alldreams">All Dreams</a>
                 </li>
                 )}
                 <li className="relative">
-                  <a className="hover:text-gray-500" href="javascript:void(0)">About</a>
+                  <a className="hover:text-gray-500 hover: font-bold" href="javascript:void(0)">About</a>
                 </li>
                 {loggedin && (
                   <li className="relative">
-                  <a className="hover:text-gray-500" href="/notifications">Notifications</a>
+                  <a className="hover:text-gray-500 hover: font-bold" href="/notifications">Notifications</a>
                 </li>
                 )}
               </ul>

@@ -1,3 +1,6 @@
+
+
+
 // import React, { useState } from 'react';
 // import { auth,app } from '../firebase.config';
 // import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore';
@@ -175,7 +178,13 @@
 
 // export default DreamList;
 
-import React, { useState } from 'react';
+
+
+
+// working 
+
+
+import React, { useState,useEffect } from 'react';
 import { auth, app } from '../firebase.config';
 import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore';
 import { toast } from "react-toastify";
@@ -186,13 +195,18 @@ function DreamList({ filteredDreams, userId, userData, dropdownIndex, dropdownTy
   const [replyDropdownIndex, setReplyDropdownIndex] = useState(null);
   const [replyDropdownOpen, setReplyDropdownOpen] = useState(false);
   const [profileimg,setProfileimg] = useState("https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png")
+  const db = getFirestore(app);
+
   const onClickFollow = async (dreamuserId) => {
     const user = auth.currentUser;
     if (!user) {
       alert("Please log in to like this dream.");
       return;
     }
-    const db = getFirestore(app);
+
+
+   
+    
     const userRef = doc(db, 'user', dreamuserId);
 
     try {
@@ -219,11 +233,59 @@ function DreamList({ filteredDreams, userId, userData, dropdownIndex, dropdownTy
       toast.error("An error occurred while following.");
     }
   };
+
+  const [likedDreams, setLikedDreams] = useState({});
+
+    
+
+      useEffect(() => {
+          // Update likedDreams state based on userData or any other source of liked dream information
+          if (userData && userData.likedDreams) {
+              setLikedDreams(userData.likedDreams);
+          }
+      }, [userData]);
+
+  handleLike = async (dreamId) => {
+          try {
+            console.log('Handling like for dreamId:', dreamId);
+    
+            const dreamRef = doc(db, 'Dreams', dreamId);
+            const dreamSnapshot = await getDoc(dreamRef);
+    
+            if (dreamSnapshot.exists()) {
+              console.log('Dream document found:', dreamSnapshot.id);
+              const dreamData = dreamSnapshot.data();
+              const currentLikes = dreamData.likesCount || 0;
+    
+    
+         // Check if the user already liked this dream
+         if (likedDreams && likedDreams[dreamId]) {
+          toast.info('You have already liked this dream.');
+      } else {
+          await setDoc(dreamRef, { ...dreamData, likesCount: currentLikes + 1 }, { merge: true });
+          const updatedLikedDreams = { ...likedDreams, [dreamId]: true };
+    
+           setLikedDreams(updatedLikedDreams);
+          toast.success('Dream liked successfully!');
+      }
+    } 
+             else {
+              console.error('Dream document not found.');
+              toast.error('Dream not found.');
+            }
+          } catch (error) {
+            console.error('Error handling like:', error);
+            toast.error('Error handling like.');
+          }
+        };
   const toggleReplyDropdown = (index) => {
     setReplyDropdownIndex((prevIndex) => (prevIndex === index ? null : index));
     setReplyDropdownOpen(true);
   };
   
+
+  
+
   return (
     <div className="font-sans flex flex-wrap justify-center">
       {filteredDreams &&
@@ -241,17 +303,19 @@ function DreamList({ filteredDreams, userId, userData, dropdownIndex, dropdownTy
 )}
 
 
+
+
             <div className="flex pt-4 px-4">
               <div className="px-14 pt-0 flex-grow">
                 <header className="flex justify-between items-center">
                   <div>
-                    <span className="font-medium">
+                    <span className="font-bold">
                       {userData && userData.find(user => user.id === dream.userId) ? 
                         userData.find(user => user.id === dream.userId).firstname : 'Unknown User'}
                     </span>
                     <span className="text-xs text-gray-500 block">{dream.posttime}</span>
                   </div>
-                  <div className="font-bold cursor-pointer" onClick={() => toggleDropdown(index, 'title')}>
+                  <div className="font-bold cursor-pointer" style={{ color: 'brown' }}  onClick={() => toggleDropdown(index, 'title')}>
                     {dream.title} &#9660;
                   </div>
                 </header>
@@ -269,13 +333,13 @@ function DreamList({ filteredDreams, userId, userData, dropdownIndex, dropdownTy
                   </div>
                 )}
                 <footer className="border-t border-grey-lighter text-sm flex mt-2">
-                  <button onClick={() => handleLike(dream.id,dream.userId)} className="block no-underline text-blue flex px-4 py-2 items-center hover:bg-grey-lighter" style={{ color: userData && userData.likedDreams && userData.likedDreams[dream.id] ? 'yellow' : 'black' }}>
+ <button onClick={() => handleLike(dream.id)} className="block no-underline text-blue flex px-4 py-2 items-center hover:bg-grey-lighter" style={{  color: likedDreams[dream.id] ? 'red' : 'black', }}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-thumbs-up h-6 w-6 mr-1 stroke-current">
                       <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path>
                     </svg>
-                    <span>Liked</span>
+                    <span>Liked ({dream.likesCount})</span>
                   </button>
-                  <button onClick={() => toggleDropdown(index, 'comment')} className="block no-underline text-black flex px-4 py-2 items-center hover:bg-grey-lighter">
+                  <button onClick={() => toggleDropdown(index, 'comment')} className="block no-underline text-blue-500 flex px-4 py-2 items-center hover:bg-grey-lighter">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-message-circle h-6 w-6 mr-1 stroke-current">
                       <path d="M21 12a9 9 0 0 0-9-9"></path>
                       <path d="M3 12a9 9 0 0 0 9 9"></path>
@@ -328,3 +392,6 @@ function DreamList({ filteredDreams, userId, userData, dropdownIndex, dropdownTy
 }
 
 export default DreamList;
+
+
+
