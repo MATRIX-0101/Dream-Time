@@ -311,55 +311,57 @@ function RegisterPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     if (details.password !== details.confpassword) {
       setErr('Password should match with confirm password');
       setnewUser(initialDetails);
       return;
     }
-
+    
     try {
-
       const db = getFirestore(app);
       const userCredential = await createUserWithEmailAndPassword(
         auth,
         details.email,
         details.password
       );
-
+  
       // Get user data
       const user = userCredential.user;
       
-      // const userRef = collection(db, 'user'); 
-
       // Set custom ID for the user document
       const userId = user.uid;
-
-      console.log(userId);
-
+  
       const newUser = {
         firstname: details.firstname,
         surname: details.surname,
         email: details.email,
         password: details.password,
-        image: '',
-        followers: [],
       };
-      // const docRef = await addDoc(userRef, newUser);
-      // await addDoc(userRef, newUser, userId);
-      const userRef = doc(db, 'user', userId); // Specify the document reference with the custom ID
-      await setDoc(userRef, newUser); // Add the data to the user document
-
-
+  
+      // Reference to the user document in Firestore
+      const userRef = doc(db, 'user', userId);
+  
+      // Add the user data to Firestore
+      await setDoc(userRef, newUser);
+  
       setErr('');
       setnewUser(initialDetails);
       alert('Registration successful!');
       navigate('/'); // Navigate to the home page after successful registration
     } catch (error) {
-      alert('Registration unsuccessful');
-      console.error('Error creating user:', error.message);
+      // Log detailed error message for debugging
+      console.error('Error creating user:', error);
+  
+      // Display specific error message based on error code
+      if (error.code === 'auth/email-already-in-use') {
+        setErr('Email is already in use. Please choose a different email.');
+      } else {
+        setErr('Registration unsuccessful. Please try again later.');
+      }
     }
   };
+  
 
   return (
         <div className="min-h-screen py-40" style={{ backgroundImage: 'linear-gradient(115deg, #9F7AEA, #FEE2FE)' }}>

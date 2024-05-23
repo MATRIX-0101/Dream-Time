@@ -315,9 +315,9 @@ import {
 } from "firebase/firestore";
 
 export default function MyDreams() {
-  const [profilePic, setProfilePic] = useState('');
+  const [profilePic, setProfilePic] = useState("https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png");
   const [editingProfilePic, setEditingProfilePic] = useState(false);
-  const [newProfilePic, setNewProfilePic] = useState('');
+  const [newProfilePic, setNewProfilePic] = useState("https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png");
   const [dreamdata, setDreamData] = useState(null);
   const [loggedin, setLoggedin] = useState(""); // Initialize loggedin state to false
   const [userId, setUserId] = useState(null);
@@ -326,8 +326,9 @@ export default function MyDreams() {
     setEditingProfilePic(true);
   };
 
-  const handleSaveProfilePic = () => {
-    setProfilePic(newProfilePic);
+  const handleSaveProfilePic = async (e) => {
+    // setProfilePic(newProfilePic);
+    // console.log(newProfilePic)
     setEditingProfilePic(false);
   };
 
@@ -413,10 +414,47 @@ export default function MyDreams() {
       }
     };
 
+    const fetchData = async () => {
+      try {
+        const user = auth.currentUser;
+        if (!user) {
+          console.log("User not authenticated.");
+          return;
+        }
+    
+        const userId = user.uid;
+        console.log("Fetching data for user:", userId);
+    
+        const db = getFirestore(app);
+        const userDocRef = doc(db, 'user', userId);
+    
+        const docSnapshot = await getDoc(userDocRef);
+        console.log("Snapshot:", docSnapshot);
+    
+        if (!docSnapshot.exists()) {
+          console.log("Data not found for user:", userId);
+          return;
+        }
+    
+        const userData = docSnapshot.data();
+        console.log("Data:", userData);
+    
+        if (userData && userData.image) {
+          setProfilePic(userData.image);
+        } else {
+          console.log("Image not found in data:", userData);
+          setProfilePic("https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png");
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
         setLoggedin(true);
         fetchDreamData();
+        fetchData()
       } else {
         alert("login again");
       }
@@ -427,6 +465,11 @@ export default function MyDreams() {
   return (
     <div className="font-sans">
       <div className="flex justify-center items-center py-4">
+      <img
+              src={profilePic}
+              alt="Profile Pic"
+              className="w-16 h-16 rounded-full border border-gray-300"
+            />
         {editingProfilePic ? (
           <>
             <input
@@ -449,11 +492,7 @@ export default function MyDreams() {
           </>
         ) : (
           <>
-            <img
-              src={profilePic}
-              alt="Profile Pic"
-              className="w-16 h-16 rounded-full border border-gray-300"
-            />
+            
             <button
               onClick={handleEditProfilePic}
               className="ml-2 text-blue-500 hover:underline"
