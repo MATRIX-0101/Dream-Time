@@ -7,7 +7,7 @@ export default function Adddream() {
     <div>
         <button 
         onClick={() => navigate('/catform')}
-        className="bg-[#a6c1ee] hover:bg-[#87acec] text-white px-6 py-3 rounded-md font-semibold transition duration-200 ease-in-out align-middle">
+        className="bg-[#6c6e71] hover:bg-[#523657d4] text-white px-6 py-3 rounded-md font-semibold transition duration-200 ease-in-out align-middle">
         Add Your Dream</button>
     </div>
   )

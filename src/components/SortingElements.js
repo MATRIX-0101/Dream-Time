@@ -9,14 +9,14 @@ export default function SortingElements({onChildvalue}) {
   return (
     <div className='flex flex-row flex-wrap'>
       <button
-        className="bg-[#a6c1ee] text-white px-5 py-2 rounded-full hover:bg-[#87acec]"
+        className="bg-[#5ebbb490] text-white px-5 py-2 rounded-full hover:bg-[#a0a7b4]"
         type="button"
         onClick={()=>handleCategory('Happy')}>
         Happy
       </button>
 
       <button
-        className="bg-[#a6c1ee] text-white px-5 py-2 rounded-full hover:bg-[#87acec]"
+        className="bg-[#5ebbb490] text-white px-5 py-2 rounded-full hover:bg-[#a0a7b4]"
         type="button"
         onClick={()=>handleCategory('Horror')}>
         
@@ -24,7 +24,7 @@ export default function SortingElements({onChildvalue}) {
       </button>
 
       <button
-        className="bg-[#a6c1ee] text-white px-5 py-2 rounded-full hover:bg-[#87acec]"
+        className="bg-[#5ebbb490] text-white px-5 py-2 rounded-full hover:bg-[#a0a7b4]"
         type="button"
         onClick={()=>handleCategory('Mystery')}>
         
@@ -32,14 +32,14 @@ export default function SortingElements({onChildvalue}) {
       </button>
 
       <button
-        className="bg-[#a6c1ee] text-white px-5 py-2 rounded-full hover:bg-[#87acec]"
+        className="bg-[#5ebbb490] text-white px-5 py-2 rounded-full hover:bg-[#a0a7b4]"
         type="button"
         onClick={()=> handleCategory('Weird')}>
         Weird
       </button>
 
       <button
-        className="bg-[#a6c1ee] text-white px-5 py-2 rounded-full hover:bg-[#87acec]"
+        className="bg-[#5ebbb490] text-white px-5 py-2 rounded-full hover:bg-[#a0a7b4]"
         type="button"
         onClick={()=>handleCategory('Fantasy')}>
         
@@ -47,14 +47,14 @@ export default function SortingElements({onChildvalue}) {
       </button>
 
       <button
-        className="bg-[#a6c1ee] text-white px-5 py-2 rounded-full hover:bg-[#87acec]"
+        className="bg-[#5ebbb490] text-white px-5 py-2 rounded-full hover:bg-[#a0a7b4]"
         type="button"
         onClick={()=>handleCategory('Fear')}>
         
         Fear
       </button>
       <button
-        className="bg-[#a6c1ee] text-white px-5 py-2 rounded-full hover:bg-[#87acec]"
+        className="bg-[#5ebbb490] text-white px-5 py-2 rounded-full hover:bg-[#a0a7b4]"
         type="button"
         onClick={()=>handleCategory('')}>
         
