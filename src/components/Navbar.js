@@ -146,6 +146,7 @@ import Logout from "./Logout";
 import Signin from "./Signin";
 import { auth, app } from "../firebase.config";
 import { getDatabase, ref, set, get } from "firebase/database";
+import { getFirestore, doc, getDoc } from 'firebase/firestore';
 
 export default function Navbar({ fixed }) {
   const navigate = useNavigate();
@@ -156,25 +157,45 @@ export default function Navbar({ fixed }) {
 
   // used inbuilt auth function of firebase, no need to use local storage as local storage is inefficient while using firebase
   useEffect(() => {
-    const fetchData = async () => {
-      const userId = auth.currentUser.uid;
-      //  alert(userId);
-      const db = getDatabase(app);
-      const dbRef = ref(db, `user/${userId}`);
-      try {
-        const snapshot = await get(dbRef);
-        const val = snapshot.val();
-        if (val && val.image) {
-          setData(val.image);
-        } else {
-          setData(
-            "https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png"
-          );
-        }
-      } catch (error) {
-        // alert(error.message);
-      }
-    };
+    
+
+const fetchData = async () => {
+  try {
+    const user = auth.currentUser;
+    if (!user) {
+      console.log("User not authenticated.");
+      return;
+    }
+
+    const userId = user.uid;
+    console.log("Fetching data for user:", userId);
+
+    const db = getFirestore(app);
+    const userDocRef = doc(db, 'user', userId);
+
+    const docSnapshot = await getDoc(userDocRef);
+    console.log("Snapshot:", docSnapshot);
+
+    if (!docSnapshot.exists()) {
+      console.log("Data not found for user:", userId);
+      return;
+    }
+
+    const userData = docSnapshot.data();
+    console.log("Data:", userData);
+
+    if (userData && userData.image) {
+      setData(userData.image);
+    } else {
+      console.log("Image not found in data:", userData);
+      setData("https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png");
+    }
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
+
+    
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
 
