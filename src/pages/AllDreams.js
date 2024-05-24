@@ -29,41 +29,10 @@ export default function AllDreams() {
   const [socket,setSocket] = useState(null)
   const [reply,setReply] = useState('')
   const [not,setNot] = useState('')
-  // const [commentsData, setCommentsData] = useState([])
 
-  // useEffect(() => {
-  //   const newSocket = io("http://localhost:5000");
-  //   setSocket(newSocket);
-
-  //   // Clean up the socket connection when the component unmounts
-  //   return () => {
-  //     newSocket.disconnect();
-  //   };
-  // }, []);
-
-  // useEffect(() => {
-  //   if (socket) {
-  //     socket.emit("newUser", userId);
-  //   }
-  // }, [socket, userId]);
 
   useEffect(() => {
-    // const fetchUserData = async () => {
-    //   const db = getFirestore(app);
-    //   const userRef = collection(db, 'user');
-    //   try {
-    //     const userDoc = await getDocs(userRef);
-    //     if (userDoc.exists()) {
-    //       const userdocs = userDoc.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-    //     // setDreamData(dreamData);
-    //       setUserData(userdocs);
-    //     } else {
-    //       setUserData(null);
-    //     }
-    //   } catch (error) {
-    //     console.error("Error fetching user data:", error);
-    //   }
-    // };
+
     const fetchUserData = async () => {
       const tempId= auth.currentUser.uid
       setUserId(tempId)
