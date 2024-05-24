@@ -1,6 +1,6 @@
 // import React, { useState, useEffect } from 'react';
 import { auth, app } from "../firebase.config";
-import { getFirestore, doc, getDoc, setDoc, getDocs, collection, addDoc } from "firebase/firestore";
+import { getFirestore, doc, getDoc, setDoc, getDocs, collection, addDoc,updateDoc } from "firebase/firestore";
 import { useState } from "react";
 import { useEffect } from "react";
 export default function Notification() {
@@ -49,8 +49,25 @@ export default function Notification() {
     return () => unsubscribe();
   }, []);
 
+  // const handleSeen = async (notificationId) => {
+  //   const db = getFirestore(app);
+  //   const notificationRef = doc(db, 'Notifications', notificationId);
+    
+  //   try {
+  //     await updateDoc(notificationRef, { seen: true });
+  //     setNotificationData((prevNotifications) =>
+  //       prevNotifications.map((notification) =>
+  //         notification.id === notificationId ? { ...notification, seen: 1 } : notification
+  //       )
+  //     );
+  //     console.log(`Notification ${notificationId} marked as seen.`);
+  //   } catch (error) {
+  //     console.error("Error updating notification:", error);
+  //   }
+  // };
+  
   const filteredNotifications = notificationData !== null 
-    ? notificationData.filter(notification => (notification.to === userId || notification.to === "") && notification.from !== userId) 
+    ? notificationData.filter(notification => (((notification.to === userId || notification.to === "") && notification.from !== userId))) 
     : [];
 
   console.log('Filtered Notifications:', filteredNotifications);
@@ -63,7 +80,7 @@ export default function Notification() {
       filteredNotifications.map((notification, index) => {
         const user = getUserById(notification.from);
         return (
-          <div key={index} className="bg-white w-full md:w-2/3 lg:w-2/3 xl:w-2/3 my-8 mx-4 rounded-lg shadow-lg overflow-hidden relative">
+          <div key={index} className="bg-white w-full md:w-2/3 lg:w-2/3 xl:w-2/3 my-8 mx-4 rounded-lg shadow-lg overflow-hidden relative" >
             {/* {user && (
               <div className="absolute top-2 left-2">
                 <img
