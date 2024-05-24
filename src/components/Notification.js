@@ -63,7 +63,10 @@ export default function Notification() {
       filteredNotifications.map((notification, index) => {
         const user = getUserById(notification.from);
         return (
-          <div key={index} className="bg-white w-full md:w-2/3 lg:w-2/3 xl:w-2/3 my-8 mx-4 rounded-lg shadow-lg overflow-hidden relative">
+          <div 
+            key={index} 
+            className="bg-white w-full md:w-2/3 lg:w-2/3 xl:w-2/3 my-8 mx-4 rounded-lg shadow-lg overflow-hidden relative transition-transform transform hover:scale-105 hover:shadow-xl"
+          >
             {/* {user && (
               <div className="absolute top-2 left-2">
                 <img
@@ -74,7 +77,9 @@ export default function Notification() {
                 />
               </div>
             )} */}
-            {notification.text}
+            <div className="p-4">
+              {notification.text}
+            </div>
           </div>
         );
       })}

@@ -7,16 +7,16 @@ export default function SortingElements({onChildvalue}) {
     onChildvalue(newgenre);
   }
   return (
-    <div className='flex flex-row flex-wrap'>
+    <div className='flex flex-auto flex-wrap mx-10 my-5 justify-center'>
       <button
-        className="bg-[#5ebbb490] text-white px-5 py-2 rounded-full hover:bg-[#a0a7b4]"
+        className="bg-[#5ebbb490] text-white px-5 py-2 rounded-full hover:bg-[#a0a7b4] m-4"
         type="button"
         onClick={()=>handleCategory('Happy')}>
         Happy
       </button>
 
       <button
-        className="bg-[#5ebbb490] text-white px-5 py-2 rounded-full hover:bg-[#a0a7b4]"
+        className="bg-[#5ebbb490] text-white px-5 py-2 rounded-full hover:bg-[#a0a7b4]  m-4"
         type="button"
         onClick={()=>handleCategory('Horror')}>
         
@@ -24,7 +24,7 @@ export default function SortingElements({onChildvalue}) {
       </button>
 
       <button
-        className="bg-[#5ebbb490] text-white px-5 py-2 rounded-full hover:bg-[#a0a7b4]"
+        className="bg-[#5ebbb490] text-white px-5 py-2 rounded-full hover:bg-[#a0a7b4] m-4"
         type="button"
         onClick={()=>handleCategory('Mystery')}>
         
@@ -32,14 +32,14 @@ export default function SortingElements({onChildvalue}) {
       </button>
 
       <button
-        className="bg-[#5ebbb490] text-white px-5 py-2 rounded-full hover:bg-[#a0a7b4]"
+        className="bg-[#5ebbb490] text-white px-5 py-2 rounded-full hover:bg-[#a0a7b4] m-4"
         type="button"
         onClick={()=> handleCategory('Weird')}>
         Weird
       </button>
 
       <button
-        className="bg-[#5ebbb490] text-white px-5 py-2 rounded-full hover:bg-[#a0a7b4]"
+        className="bg-[#5ebbb490] text-white px-5 py-2 rounded-full hover:bg-[#a0a7b4] m-4"
         type="button"
         onClick={()=>handleCategory('Fantasy')}>
         
@@ -47,14 +47,14 @@ export default function SortingElements({onChildvalue}) {
       </button>
 
       <button
-        className="bg-[#5ebbb490] text-white px-5 py-2 rounded-full hover:bg-[#a0a7b4]"
+        className="bg-[#5ebbb490] text-white px-5 py-2 rounded-full hover:bg-[#a0a7b4] m-4"
         type="button"
         onClick={()=>handleCategory('Fear')}>
         
         Fear
       </button>
       <button
-        className="bg-[#5ebbb490] text-white px-5 py-2 rounded-full hover:bg-[#a0a7b4]"
+        className="bg-[#5ebbb490] text-white px-5 py-2 rounded-full hover:bg-[#a0a7b4] m-4"
         type="button"
         onClick={()=>handleCategory('')}>
         
