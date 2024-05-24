@@ -9,7 +9,9 @@ export default function SortingElements({onChildvalue}) {
   return (
     <div className='flex flex-auto flex-wrap mx-10 my-5 justify-center'>
       <button
+
         className="relative inline-flex items-center justify-center p-3.5 mb-2 me-6 overflow-hidden text-sm font-medium text-white-900 rounded-lg group bg-gradient-to-br from-gray-600 to-gray-500 group-hover:from-gray-600 group-hover:to-gray-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-gray-300 dark:focus:ring-white-800 border border-white hover:border-gray-500"
+
 
         type="button"
         onClick={()=>handleCategory('Happy')}>
@@ -19,6 +21,7 @@ export default function SortingElements({onChildvalue}) {
   
 
       <button
+
         className="relative inline-flex items-center justify-center p-3.5 mb-2 me-6 overflow-hidden text-sm font-medium text-white-900 rounded-lg group bg-gradient-to-br from-gray-600 to-gray-500 group-hover:from-gray-600 group-hover:to-gray-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-gray-300 dark:focus:ring-white-800 border border-white hover:border-gray-500"
 
 
@@ -29,6 +32,7 @@ export default function SortingElements({onChildvalue}) {
       </button>
 
       <button
+
         className="relative inline-flex items-center justify-center p-3.5 mb-2 me-6 overflow-hidden text-sm font-medium text-white-900 rounded-lg group bg-gradient-to-br from-gray-600 to-gray-500 group-hover:from-gray-600 group-hover:to-gray-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-gray-300 dark:focus:ring-white-800 border border-white hover:border-gray-500"
 
         type="button"
@@ -38,6 +42,7 @@ export default function SortingElements({onChildvalue}) {
       </button>
 
       <button
+
         className="relative inline-flex items-center justify-center p-3.5 mb-2 me-6 overflow-hidden text-sm font-medium text-white-900 rounded-lg group bg-gradient-to-br from-gray-600 to-gray-500 group-hover:from-gray-600 group-hover:to-gray-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-gray-300 dark:focus:ring-white-800 border border-white hover:border-gray-500"
 
 
@@ -48,7 +53,6 @@ export default function SortingElements({onChildvalue}) {
 
       <button
         className="relative inline-flex items-center justify-center p-3.5 mb-2 me-6 overflow-hidden text-sm font-medium text-white-900 rounded-lg group bg-gradient-to-br from-gray-600 to-gray-500 group-hover:from-gray-600 group-hover:to-gray-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-gray-300 dark:focus:ring-white-800 border border-white hover:border-gray-500"
-        
 
         type="button"
         onClick={()=>handleCategory('Fantasy')}>
@@ -72,15 +76,14 @@ export default function SortingElements({onChildvalue}) {
       <button
         className="relative inline-flex items-center justify-center p-3.5 mb-2 me-6 overflow-hidden text-sm font-medium text-white-900 rounded-lg group bg-gradient-to-br from-gray-600 to-gray-500 group-hover:from-gray-600 group-hover:to-gray-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-gray-300 dark:focus:ring-white-800 border border-white hover:border-gray-500"
 
-
         type="button"
         onClick={()=>handleCategory('Fear')}>
         
         Fear
       </button>
       <button
-        className="relative inline-flex items-center justify-center p-3.5 mb-2 me-6 overflow-hidden text-sm font-medium text-white-900 rounded-lg group bg-gradient-to-br from-gray-600 to-gray-500 group-hover:from-gray-600 group-hover:to-gray-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-gray-300 dark:focus:ring-white-800 border border-white hover:border-gray-500"
 
+        className="relative inline-flex items-center justify-center p-3.5 mb-2 me-6 overflow-hidden text-sm font-medium text-white-900 rounded-lg group bg-gradient-to-br from-gray-600 to-gray-500 group-hover:from-gray-600 group-hover:to-gray-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-gray-300 dark:focus:ring-white-800 border border-white hover:border-gray-500"
 
         type="button"
         onClick={()=>handleCategory('')}>

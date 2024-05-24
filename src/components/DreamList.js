@@ -287,10 +287,10 @@ function DreamList({ filteredDreams, userId, userData, dropdownIndex, dropdownTy
   
 
   return (
-    <div className="font-sans flex flex-wrap justify-center">
+    <div className="font-sans flex flex-wrap justify-center ">
       {filteredDreams &&
         filteredDreams.map((dream, index) => (
-          <div key={index} className="bg-white w-full md:w-2/3 lg:w-2/3 xl:w-2/3 my-8 mx-4 rounded-lg shadow-lg overflow-hidden relative">
+          <div key={index} className=" bg-white w-full md:w-2/3 lg:w-2/3 xl:w-2/3 my-8 mx-4 rounded-lg shadow-lg overflow-hidden relative">
             {userData && userData.find(user => user.id === dream.userId) && (
   <div className="absolute top-2 left-2">
     <img
@@ -305,7 +305,7 @@ function DreamList({ filteredDreams, userId, userData, dropdownIndex, dropdownTy
 
 
 
-            <div className="flex pt-4 px-4">
+            <div className="flex align-right pt-4 px-4 bg-white w-full md:w-2/3 lg:w-2/3 xl:w-2/3 my-8 mx-auto rounded-lg shadow-lg overflow-hidden relative transition-transform transform hover:scale-105 hover:shadow-xl">
               <div className="px-14 pt-0 flex-grow">
                 <header className="flex justify-between items-center">
                   <div>
@@ -327,11 +327,32 @@ function DreamList({ filteredDreams, userId, userData, dropdownIndex, dropdownTy
                     <span>Follow</span>
                   </button>
                 </div>
-                {dropdownIndex === index && dropdownType === 'title' && (
+                {/* {dropdownIndex === index && dropdownType === 'title' && (
                   <div className="bg-gray-100 border border-gray-300 w-full mt-1 py-2 px-4">
                     {dream.content}
                   </div>
-                )}
+                )} */}
+                {dropdownIndex === index && dropdownType === 'title' && (
+  <div className="bg-gray-100 border border-gray-300 w-full mt-1 py-2 px-4">
+    <p>{dream.content}</p>
+    {dream.imageUrl && (
+      <img src={dream.imageUrl} alt="Dream Image" className="my-4" />
+    )}
+    {dream.videoUrl && (
+      <video controls className="my-4">
+        <source src={dream.videoUrl} type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+    )}
+    {dream.audioUrl && (
+      <audio controls className="my-4">
+        <source src={dream.audioUrl} type="audio/mp3" />
+        Your browser does not support the audio tag.
+      </audio>
+    )}
+  </div>
+)}
+
                 <footer className="border-t border-grey-lighter text-sm flex mt-2">
  <button onClick={() => handleLike(dream.id)} className="block no-underline text-blue flex px-4 py-2 items-center hover:bg-grey-lighter" style={{  color: likedDreams[dream.id] ? 'red' : 'black', }}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-thumbs-up h-6 w-6 mr-1 stroke-current">
