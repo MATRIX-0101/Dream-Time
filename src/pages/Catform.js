@@ -290,7 +290,7 @@ const Catform = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+        console.log("t")
         try {
             // Remaining code for submitting dream
         } catch (error) {
