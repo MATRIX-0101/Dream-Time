@@ -11,6 +11,7 @@ import MyDreams from './pages/MyDreams';
 import { ToastContainer } from "react-toastify";
 import AllDreams from './pages/AllDreams';
 import Notification from './components/Notification';
+import DreamInfo from './pages/DreamInfo';
   function App() {
     return (
     <>
@@ -102,6 +103,15 @@ import Notification from './components/Notification';
             element={
               <Layout>
                 <Notification />
+              </Layout>
+            }
+          />
+
+          <Route 
+            path="/dreamInfo"
+            element={
+              <Layout>
+                <DreamInfo />
               </Layout>
             }
           />

@@ -301,22 +301,42 @@ function DreamList({
   
   
   return (
-    <div className="font-sans flex flex-wrap justify-center">
-      {filteredDreams && filteredDreams.map((dream, index) => (
-        <div key={index} className="bg-white w-full md:w-2/3 lg:w-2/3 xl:w-2/3 my-8 mx-4 rounded-lg shadow-lg overflow-hidden relative">
-          {userData && userData.find(user => user.id === dream.userId) && (
-            <div className="absolute top-2 left-2">
-              <img
-                src={userData.find(user => user.id === dream.userId).image || profileImg}
-                alt="Profile"
-                className="w-12 h-12 rounded-full cursor-pointer"
-                onClick={() => handleImageClick(userData.find(user => user.id === dream.userId).image)}
-              />
-            </div>
-          )}
-          <div className="flex align-right pt-4 px-4 bg-white w-full md:w-2/3 lg:w-2/3 xl:w-2/3 my-8 mx-auto rounded-lg shadow-lg overflow-hidden relative transition-transform transform hover:scale-105 hover:shadow-xl">
-            <div className="px-14 pt-0 flex-grow">
-              <header className="flex justify-between items-center">
+    <div className="font-sans flex flex-wrap justify-center ">
+      {filteredDreams &&
+        filteredDreams
+        .map(dream => ({ ...dream, posttime: new Date(dream.posttime) })) // Convert posttime string to Date object
+        .sort((a, b) => b.posttime - a.posttime)
+        .map((dream, index) => (
+          <div key={index} className=" bg-white w-full md:w-2/3 lg:w-2/3 xl:w-2/3 my-8 mx-4 rounded-lg shadow-lg overflow-hidden relative">
+            {userData && userData.find(user => user.id === dream.userId) && (
+  <div className="absolute top-2 left-2">
+    <img
+      src={userData.find(user => user.id === dream.userId).image || "https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png"}
+      alt="Profile"
+      className="w-12 h-12 rounded-full cursor-pointer"
+      onClick={() => handleImageClick(userData.find(user => user.id === dream.userId).image)}
+    />
+  </div>
+)}
+
+
+
+
+            <div className="flex align-right pt-4 px-4 bg-white w-full md:w-2/3 lg:w-2/3 xl:w-2/3 my-8 mx-auto rounded-lg shadow-lg overflow-hidden relative transition-transform transform hover:scale-105 hover:shadow-xl">
+              <div className="px-14 pt-0 flex-grow">
+                <header className="flex justify-between items-center">
+                  <div>
+                    <span className="font-bold">
+                      {userData && userData.find(user => user.id === dream.userId) ? 
+                        userData.find(user => user.id === dream.userId).firstname : 'Unknown User'}
+                    </span>
+                    <span className="text-xs text-gray-500 block">{dream.posttime.toLocaleString()}</span>
+                  </div>
+                  <div className="font-bold cursor-pointer" style={{ color: 'brown' }}  onClick={() => toggleDropdown(index, 'title')}>
+                    {dream.title} &#9660;
+                  </div>
+                </header>
+
                 <div>
                   <span className="font-bold">
                     {userData && userData.find(user => user.id === dream.userId) ? userData.find(user => user.id === dream.userId).firstname : 'Unknown User'}
