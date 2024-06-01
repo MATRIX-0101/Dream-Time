@@ -17,6 +17,7 @@ import DreamList from "../components/DreamList";
 
 export default function AllDreams() {
   const [dreamdata, setDreamData] = useState([]);
+  const [replyData,setReplyData] = useState([])
   const [userId, setUserId] = useState(null);
   const [username,setUsename] = useState(null);
   const [userData, setUserData] = useState([]);
@@ -62,6 +63,14 @@ export default function AllDreams() {
         setDreamData(dreamData);
        // console.log(dreamData.comments)
         // setCommentsData(commentsData)
+
+        // Fetch only the 'replies' field from the Dreams collection
+    const repliesData = snapshot.docs.map(doc => {
+      const data = doc.data();
+      return { replies: data.replies || [] }; // Handle null case by defaulting to an empty array
+    });
+
+    setReplyData(repliesData); // Assuming you have a state to store reply data
       } catch (error) {
         console.error("Error fetching dreams:", error);
         alert("An error occurred while fetching dreams.");
@@ -147,6 +156,18 @@ export default function AllDreams() {
       
       comments.push(newcomment);
       await setDoc(dreamRef, { ...dreamDoc.data(), comments });
+
+      // Update the local state
+    setDreamData((prevDreamData) =>
+      prevDreamData.map((dream) =>
+        dream.id === dreamId
+          ? { ...dream, comments: [...comments] }
+          : dream
+      )
+    );
+    //set reply state
+
+
       setComment('')
       toast.success("Dream liked successfully!");
       handleNotification(dreamuserId,2)
@@ -158,6 +179,7 @@ export default function AllDreams() {
   };
 
   const handleReply = async (dreamId,commentId,dreamuserId) => {
+    
     const user = auth.currentUser;
     if (!user) {
       alert("Please log in to like this dream.");
@@ -188,8 +210,21 @@ export default function AllDreams() {
       
       replies.push(newreply);
       await setDoc(dreamRef, { ...dreamDoc.data(), replies });
+
+      // Update the local state
+    setDreamData((prevDreamData) =>
+      prevDreamData.map((dream) =>
+        dream.id === dreamId
+          ? { ...dream, replies: [...replies] }
+          : dream
+      )
+    );
+
+    
+
+
       setReply('')
-      toast.success("Dream liked successfully!");
+      toast.success("Dream replied successfully!");
     } catch (error) {
       console.error("Error liking dream:", error);
       toast.error("An error occurred while liking the dream.");
@@ -276,6 +311,7 @@ export default function AllDreams() {
         userId={userId}
         // commentsData={commentsData}
         userData={userData}
+        replyData={replyData}
         dropdownIndex={dropdownIndex}
         dropdownType={dropdownType}
         comment={comment}

@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/img-redundant-alt */
 
 
 
@@ -193,6 +194,7 @@ function DreamList({
   filteredDreams,
   userId,
   userData,
+  replyData,
   dropdownIndex,
   dropdownType,
   comment,
@@ -208,8 +210,10 @@ function DreamList({
 }) {
   const [replyDropdownIndex, setReplyDropdownIndex] = useState(null);
   const [replyDropdownOpen, setReplyDropdownOpen] = useState(false);
+  const [activeReplyCommentId, setActiveReplyCommentId] = useState(null);
   const [profileImg, setProfileImg] = useState("https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png");
   const [likedDreams, setLikedDreams] = useState({});
+  const [filteredreplyData,setFilteredReplyData] = useState([])
   const db = getFirestore(app);
 
   useEffect(() => {
@@ -221,7 +225,7 @@ function DreamList({
   const onClickFollow = async (dreamUserId) => {
     const user = auth.currentUser;
     if (!user) {
-      alert("Please log in to like this dream.");
+      alert("Please log in to follow this user.");
       return;
     }
 
@@ -274,11 +278,28 @@ function DreamList({
     }
   };
 
-  const toggleReplyDropdown = (index, type) => {
-    setReplyDropdownIndex((prevIndex) => (prevIndex === index ? null : index));
-    setReplyDropdownOpen(type);
+  const toggleReplyDropdown = (commentId) => {
+    setActiveReplyCommentId((prevCommentId) => (prevCommentId === commentId ? null : commentId));
+    
+    // Check if replyData is not null or undefined
+    if (replyData) {
+      // Extract the replies arrays from replyData
+      const repliesArrays = replyData.map(reply => reply.replies);
+      
+      // Flatten the array of arrays into a single array
+      const allReplies = repliesArrays.flat();
+      
+      // Filter the replies that match the provided commentId
+      const filteredReplies = allReplies.filter(reply => reply.commentid === commentId);
+      
+      // Set the filtered reply data state
+      setFilteredReplyData(filteredReplies);
+    }
+    console.log(filteredreplyData)
   };
-
+  
+  
+  
   return (
     <div className="font-sans flex flex-wrap justify-center">
       {filteredDreams && filteredDreams.map((dream, index) => (
@@ -364,7 +385,7 @@ function DreamList({
                     <div key={commentIndex} className="border border-gray-400 mt-2 p-2">
                       <p>{comment.text}</p>
                       <footer className="border-t border-grey-lighter text-sm flex mt-2">
-                        <button onClick={() => toggleReplyDropdown(index, 'reply')} className="block no-underline text-black flex px-4 py-2 items-center hover:bg-grey-lighter">
+                        <button onClick={() => toggleReplyDropdown(comment.id)} className="block no-underline text-black flex px-4 py-2 items-center hover:bg-grey-lighter">
                           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-message-circle h-6 w-6 mr-1 stroke-current">
                             <path d="M21 12a9 9 0 0 0-9-9"></path>
                             <path d="M3 12a9 9 0 0 0 9 9"></path>
@@ -377,22 +398,31 @@ function DreamList({
                           <span>Reply</span>
                         </button>
                       </footer>
-                      <input
-                        type="text"
-                        placeholder="Leave your comments"
-                        className="border border-gray-400 py-1 px-2"
-                        id="reply"
-                        name="reply"
-                        value={reply}
-                        onChange={handlereply}
-                      />
-                      <button
-                        type="button"
-                        className="bg-purple-500 text-center text-white py-1 px-4 rounded-md mt-2"
-                        onClick={() => handleReply(dream.id, comment.id, dream.userId)}
-                      >
-                        Reply
-                      </button>
+                      {activeReplyCommentId === comment.id && (
+                        <div className="mt-2">
+                          {filteredreplyData && filteredreplyData.map((reply, replyIndex) => (
+                            <div key={replyIndex} className="border border-gray-400 mt-2 p-2 ml-4">
+                              <p>{reply.text}</p>
+                            </div>
+                          ))}
+                          <input
+                            type="text"
+                            placeholder="Leave your reply"
+                            className="border border-gray-400 py-1 px-2"
+                            id="reply"
+                            name="reply"
+                            value={reply}
+                            onChange={handlereply}
+                          />
+                          <button
+                            type="button"
+                            className="bg-purple-500 text-center text-white py-1 px-4 rounded-md mt-2"
+                            onClick={() => handleReply(dream.id, comment.id, dream.userId)}
+                          >
+                            Reply
+                          </button>
+                        </div>
+                      )}
                     </div>
                   ))}
                   <input
