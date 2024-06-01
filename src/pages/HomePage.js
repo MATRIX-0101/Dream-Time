@@ -4,14 +4,53 @@ import Navbar from '../components/Navbar'
 import Hero from '../components/Hero'
 import AboutUs from '../components/AboutUs'
 import Footer from '../components/Footer'
+import lig from "../assets/bb.jpeg";
+import fig from "../assets/gn.jpeg";
 
 export default function HomePage() {
   return (
     <div>
       {/* <Navbar /> */}
+
+
+
       <Hero />
+
       <AboutUs />
+
+       
+      <div className="bg-fixed bg-center bg-cover" style={{ backgroundImage: `url(${lig})` }}>
+  <div className="h-[700px] bg-opacity-75 flex justfy-center pt-[80px]"></div>
+</div>
+
+
       {/* <Footer /> */}
+
+
+
+      <div className="w-screen h-[400px] bg-gray-500 flex flex-col justify-center items-center">
+        <middlesection />
+        <p className="text-3xl text-white leading-relaxed"> {/* Changed text-lg to text-xl */}
+        "In the hush of night, dreams take flight,
+        </p>
+        <p className="text-3xl text-white leading-relaxed"> {/* Changed text-lg to text-xl */}
+        Whispering secrets, oh so bright. 
+        </p>
+        <p className="text-3xl text-white leading-relaxed"> {/* Changed text-lg to text-xl */}
+        Stars as guides in skies so deep,
+        </p>
+        <p className="text-3xl text-white leading-relaxed"> {/* Changed text-lg to text-xl */}
+        Where imagination finds its keep."
+        </p>
+      </div>
+
+       
+
+<div className="bg-fixed bg-center bg-cover" style={{ backgroundImage: `url(${fig})` }}>
+  <div className="h-[600px] bg-opacity-75 flex justfy-center pt-[80px]"></div>
+</div>
+
+
     </div>
   )
 } 
