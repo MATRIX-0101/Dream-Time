@@ -289,7 +289,10 @@ function DreamList({ filteredDreams, userId, userData, dropdownIndex, dropdownTy
   return (
     <div className="font-sans flex flex-wrap justify-center ">
       {filteredDreams &&
-        filteredDreams.map((dream, index) => (
+        filteredDreams
+        .map(dream => ({ ...dream, posttime: new Date(dream.posttime) })) // Convert posttime string to Date object
+        .sort((a, b) => b.posttime - a.posttime)
+        .map((dream, index) => (
           <div key={index} className=" bg-white w-full md:w-2/3 lg:w-2/3 xl:w-2/3 my-8 mx-4 rounded-lg shadow-lg overflow-hidden relative">
             {userData && userData.find(user => user.id === dream.userId) && (
   <div className="absolute top-2 left-2">
@@ -313,7 +316,7 @@ function DreamList({ filteredDreams, userId, userData, dropdownIndex, dropdownTy
                       {userData && userData.find(user => user.id === dream.userId) ? 
                         userData.find(user => user.id === dream.userId).firstname : 'Unknown User'}
                     </span>
-                    <span className="text-xs text-gray-500 block">{dream.posttime}</span>
+                    <span className="text-xs text-gray-500 block">{dream.posttime.toLocaleString()}</span>
                   </div>
                   <div className="font-bold cursor-pointer" style={{ color: 'brown' }}  onClick={() => toggleDropdown(index, 'title')}>
                     {dream.title} &#9660;

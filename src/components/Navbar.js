@@ -256,7 +256,7 @@ const fetchData = async () => {
                 </li>
                 )}
                 <li className="relative">
-                  <a className="hover:text-gray-500 hover: font-bold" href="javascript:void(0)">About</a>
+                  <a className="hover:text-gray-500 hover: font-bold" href="/dreamInfo">DreamInfo</a>
                 </li>
                 {loggedin && (
                   <li className="relative">

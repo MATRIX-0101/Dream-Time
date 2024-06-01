@@ -267,6 +267,8 @@ export default function AllDreams() {
 
   const filteredDreams = category !== '' ? dreamdata.filter(dream => dream.category === category) : dreamdata;
 
+  
+
   return (
     <div>
       <SortingElements onChildvalue={handleChildvalue}/>
